@@ -1,0 +1,28 @@
+<header>
+  <nav>
+    <div class="container">
+      <div>
+        <ul class="navbar-nav">
+          <li>
+            <h1>Quiz</h1>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
+            <a class="nav-link text-dark" [routerLink]="['home']">Quiz</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/show-categories']">Categories</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/signin']">SignIn</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!isLoggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/signup']">SignUp</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isLoggedIn">
+            <a class="nav-link text-dark" [routerLink]="['/']" (click)="logOut()">LogOut</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,46 @@
+<div class="card-height">
+  {{combine$|async}}
+  <mat-card style="height:100%;" class="parent-of-element" *ngIf="isActive">
+    <div class="container element">
+      <div>
+        <h1>{{currentQuestion?.content}}</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Answer</mat-label>
+            <input matInput [formControl]="answer">
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <div *ngIf="correctAnswer">
+            <h2>{{correctAnswer.content}}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <div *ngIf="answerResult">
+            <div *ngIf="answerResult?.result; else elseBlock">
+              <h2 class="good">Good!</h2>
+            </div>
+            <ng-template #elseBlock>
+              <h2 class="wrong">Wrong</h2>
+            </ng-template>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </mat-card>
+  <mat-card style="height:100%;" class="parent-of-element" *ngIf="!isActive">
+    <div class="container element">
+      <div>
+        <h1>Quiz Finished</h1>
+        <h6>You have achived next level in your learning journey!</h6>
+      </div>
+    </div>
+  </mat-card>
+
+</div>

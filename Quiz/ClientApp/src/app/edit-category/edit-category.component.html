@@ -1,0 +1,39 @@
+<div class="row mt-2">
+  <button mat-stroked-button color="warn" (click)="goBack()">Back</button>
+</div>
+
+<div class="row mt-5">
+  <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
+    <div class="row">
+      <div class="col-7">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label for="categoryName">Category</mat-label>
+          <input matInput placeholder="Ex. Pizza" formControlName="categoryName" id="questionContent" required>
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <button mat-stroked-button color="primary" type="submit" [disabled]="!categoryForm.valid">Save</button>
+      </div>
+      <div class="example-button-container align-end col-3">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
+                (click)="removeCategory()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-subcategories></app-subcategories>
+<div class="mt-5" *ngIf="isSubcategory">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle style="background:transparent">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Questions
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-questions></app-questions>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

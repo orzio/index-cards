@@ -1,0 +1,1 @@
+﻿select * from QuizRoundResults where Weight>0.8;

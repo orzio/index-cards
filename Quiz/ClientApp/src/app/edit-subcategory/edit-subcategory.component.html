@@ -1,0 +1,14 @@
+<div class="row mt-2">
+  <button mat-stroked-button color="warn" (click)="goBack()">Back</button>
+</div>
+<div class="row  mt-5">
+  <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
+    <div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label for="categoryName">Category</mat-label>
+        <input matInput placeholder="Ex. Pizza" formControlName="categoryName" id="questionContent" required>
+      </mat-form-field>
+    </div>
+    <button mat-stroked-button color="primary" type="submit" [disabled]="!categoryForm.valid">Save</button>
+  </form>
+</div>

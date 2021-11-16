@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="row">
+    <button mat-stroked-button color="warn" (click)="goBack()">Back</button>
+  </div>
+  <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="questionForm">
+    <div class="row">
+      <div class="col-sm-4 pl-0">
+        <h1>Add Question</h1>
+        <div>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="questionContent">Write your question</mat-label>
+            <input matInput placeholder="Ex. Pizza" formControlName="questionContent" id="questionContent" required>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label for="questionAnswer">Answer</mat-label>
+            <input matInput placeholder="Answer" formControlName="questionAnswer" id="questionAnswer" required>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--<div class="col-sm">
+        <h1>Select Category</h1>
+        <div *ngIf="categories$ | async as categories">
+          <mat-form-field appearance="fill">
+            <mat-label>Categories</mat-label>
+            <mat-select formControlName="category" [(ngModel)] ="selected">
+              <mat-optgroup *ngFor="let mainCategory of categories" [label]="mainCategory.name"
+                            [disabled]="mainCategory.disabled">
+                <mat-option *ngFor="let subCategory of mainCategory.subCategories" [value]="subCategory" >
+                  {{subCategory.name}}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>-->
+    </div>
+    <div class="row">
+      <button mat-stroked-button color="primary" type="submit" [disabled]="!questionForm.valid">Submit</button>
+    </div>
+  </form>
+
+  <!--<div class="row mt-5">
+    <h2>Add Category</h2>
+  </div>
+
+  <div class="row">
+    <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="categoryForm">
+      <div>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label for="categoryName">New category</mat-label>
+          <input matInput placeholder="Ex. Pizza" formControlName="categoryName" id="questionContent" required>
+        </mat-form-field>
+      </div>
+      <button mat-stroked-button color="primary" type="submit" [disabled]="!categoryForm.valid">Add</button>
+    </form>
+  </div>-->
+
+
+</div>

@@ -1,0 +1,43 @@
+
+<div class="container element">
+  <div class="vertical-center">
+    <div class="row center-horizontal">
+      <h1>Login</h1>
+    </div>
+    <div>
+      <div class="row center-horizontal">
+        <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="signInForm">
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Login</mat-label>
+                  <input matInput formControlName="userName" required>
+                </mat-form-field>
+              </td>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" formControlName="password" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button mat-stroked-button color="primary" type="submit" [disabled]="!signInForm.valid">Login</button>
+              </td>
+            </tr>
+          </table>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row"></div>
+  <div class="row"></div>

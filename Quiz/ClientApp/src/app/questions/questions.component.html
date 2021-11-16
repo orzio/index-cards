@@ -1,0 +1,6 @@
+<div *ngIf="questions$ | async as questions">
+  <app-question-with-answer *ngFor="let question of questions"
+                            [questionWithAnswer]="question">
+  </app-question-with-answer>
+  <button mat-raised-button color="primary" (click)="add()">Add question</button>
+</div>

@@ -1,0 +1,14 @@
+<body>
+  <div class="example-container">
+    <mat-sidenav-container style="height:100vh">
+      <mat-sidenav opened mode="side" position="start">
+        <app-nav-menu></app-nav-menu>
+      </mat-sidenav>
+      <mat-sidenav-content position="end">
+        <div class="container">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</body>

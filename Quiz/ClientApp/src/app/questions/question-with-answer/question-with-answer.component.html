@@ -1,0 +1,10 @@
+<div class="border row ">
+  <div class="col-9">
+    <h6>{{questionWithAnswer.question.content}}</h6>
+    <p>{{questionWithAnswer.answer.content}}</p>
+  </div>
+  <div class="col-3 align-end" >
+    <button mat-raised-button color="primary" (click)="edit()">Edit</button>
+    <button mat-raised-button color="primary" (click)="remove()" class="ml-2">Remove</button>
+  </div>
+</div>

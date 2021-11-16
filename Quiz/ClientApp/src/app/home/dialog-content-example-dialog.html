@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Install Angular</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Welcome to competition with: Category of <strong>{{data.category.name}}</strong></p>
+  <p>Click Start to play!</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-dialog-close color="warn"  mat-stroked-button>Cancel</button>
+  <button  mat-stroked-button color="primary"(click)="startQuiz()" mat-dialog-close>Start</button>
+</mat-dialog-actions>
+

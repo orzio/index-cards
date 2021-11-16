@@ -1,0 +1,16 @@
+<div class="row mt-2">
+  <button mat-stroked-button color="warn" (click)="goBack()">Back</button>
+</div>
+
+<div class="vertical-center">
+  <div class="container">
+    <div>
+      <app-quiz-question></app-quiz-question>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" (click)="checkAnswer()">Check</button>
+      <button mat-raised-button color="accent" (click)="nextQuestion()">Next</button>
+      <button mat-raised-button color="warn" (click)="showAnswer()">Show Answer</button>
+    </div>
+  </div>
+</div>

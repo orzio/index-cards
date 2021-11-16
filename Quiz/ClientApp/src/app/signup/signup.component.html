@@ -1,0 +1,59 @@
+
+<div class="container element">
+  <div class="vertical-center">
+    <div class="row center-horizontal">
+      <h1>SignUp</h1>
+    </div>
+    <div>
+      <div class="row center-horizontal">
+        <form class="example-form" (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
+          <table class="example-full-width" cellspacing="0">
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email" type="email" email required>
+                </mat-form-field>
+              </td>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>First Name</mat-label>
+                  <input matInput type="text" formControlName="firstName" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput type="text" formControlName="lastName" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" formControlName="password" required>
+                </mat-form-field>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button mat-stroked-button color="primary" type="submit" [disabled]="!signUpForm.valid">SignUp</button>
+              </td>
+            </tr>
+          </table>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
