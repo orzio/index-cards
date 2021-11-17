@@ -348,3 +348,11 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/.vs
+/node_modules
+/Quiz.Core/bin
+/Quiz.Core/obj
+/Quiz.Infrastructure/bin
+/Quiz.Infrastructure/obj
+/Quiz.Tests/obj
+/Quiz.Tests/bin

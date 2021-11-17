@@ -1,0 +1,428 @@
+    1  git clone https://consolisgroupdev@dev.azure.com/consolisgroupdev/TeklaAttributes/_git/TeklaAttributes
+    2  git pull
+    3  git pull
+    4  git pull
+    5  git commit - m update materials 
+    6  git commit -m "update materials" 
+    7  git pull
+    8  git push
+    9  git push
+   10  git commit -m "update materialsd" 
+   11  git add .
+   12  git commit -m "update materialsa" 
+   13  git push
+   14  git status
+   15  git hisotry
+   16  git commit -m "delete trash files add 433-07.xml"
+   17  git push
+   18  git status
+   19  git status
+   20  git commit -m "update 460-05"
+   21  git commit -m "update 460-05"
+   22  git add 460-05.xml
+   23  git status
+   24  git commit -m "update 460-05"
+   25  git push
+   26  git status
+   27  git history
+   28  git --help
+   29  git show log
+   30  git log
+   31  git pull
+   32  git add .
+   33  git commit -m "Make changes in 433-07"
+   34  git push
+   35  git pull
+   36  git reset --soft HEAD~
+   37  git pull
+   38  git clone https://ProductDataTeam@dev.azure.com/ProductDataTeam/Product%20Data/_git/Publisher_ValidationTool
+   39  git pull
+   40  git add .
+   41  git add .
+   42  git add .
+   43  git commit -m "add yml files for pipelines"
+   44  git status
+   45  git add .
+   46  git status
+   47  git commit -m "Update udaPool"
+   48  git push
+   49  git pull
+   50  git status
+   51  git add .
+   52  git status
+   53  git commit -m "Update Udapool"
+   54  git push
+   55  git status
+   56  git commit -m "TeklaAttributes excel with xlsx"
+   57  git push
+   58  git push --set-upstream origin Test
+   59  git add .
+   60  git add .
+   61  git status
+   62  git add .
+   63  git init
+   64  mkdir test
+   65  cd test
+   66  nano test.txt
+   67  ls
+   68  git add .
+   69  ls
+   70  git reset
+   71  ls
+   72  git status
+   73  git reflog
+   74  git checkout --test.txt
+   75  git checkout -- test.txt
+   76  git checkout --test.txt
+   77  git reset --hard
+   78  ls
+   79  git status
+   80  git add .
+   81  ls
+   82  ls
+   83  git add .
+   84  git ls
+   85  git log
+   86  git showlog
+   87  git add .
+   88  git commit -m "initial commit"
+   89  ls
+   90  git log
+   91  git add.
+   92  git add .
+   93  git reset
+   94  git add.
+   95  git add .
+   96  git reset
+   97  git add .
+   98  cd ..
+   99  ls
+  100  git log
+  101  git status
+  102  git reset
+  103  git help
+  104  git help git
+  105  git shortlog
+  106  git shortlog -s
+  107  git shortlog -n -s
+  108  git shortlog -s
+  109  git shortlog -s -n
+  110  git shortlog -s
+  111  git longlog
+  112  git shortlog
+  113  git shortlog | wc -l
+  114  git shortlog -s -n | wc -l
+  115  git shortlog -s -n
+  116  git shortlog -s
+  117  git log
+  118  git log  online
+  119  git log --oneline
+  120  git log --short
+  121  git log --medium
+  122  git log medium
+  123  git mediumlog
+  124  git log --pretty=short
+  125  git log --pretty=oneline
+  126  git log -3
+  127  git log -3 --pretty=oneline
+  128  git log -3 --pretty=oneline --abbrev=2
+  129  git log -3 --pretty=oneline --abbrev-commit --abbrev=4
+  130  git log -3 --pretty=oneline --abbrev-commit --abbrev=email
+  131  git log -3 --pretty=oneline --abbrev-commit --abbrev=4
+  132  git log -3 --pretty=oneline --abbrev-commit --abbrev=4 --pretty=email
+  133  git log -3 --pretty=oneline --abbrev-commit --abbrev=4
+  134  git log -3 --pretty=email --abbrev-commit --abbrev=4
+  135  git log -3 --pretty=raw --abbrev-commit --abbrev=4
+  136  git log -3 --pretty=oneline --abbrev-commit --abbrev=4
+  137  git init
+  138  mkdir test
+  139  cd test
+  140  echo "this is master" >file.txt
+  141  git add .
+  142  git add .
+  143  git commit -m "init commit"
+  144  git switch dev
+  145  git branch dev
+  146  git switch dev
+  147  ls
+  148  echo "this is dev" > file.txt
+  149  cat file.txt
+  150  git checkout master .file.txt
+  151  git checkout master ./file.txt
+  152  cat file.txt
+  153  git shorlog -s -n
+  154  git shortlog -n -s
+  155  git branch
+  156  git log --oneline 
+  157  git log --oneline --abbrev-commit --abbrev=4
+  158  git branch
+  159  git checkout feature/14052
+  160  git switch feature/14052-add-connection-lines-to-dimension
+  161  git log --oneline --abbrev-commit --abbrev=4
+  162  git switch DrawingDev
+  163  git branch
+  164  git checkout -b feature/14092-change-hole-analyzer
+  165  git branch
+  166  git checkout -f feature/14052-add-connection-lines-to-dimension
+  167  git checkout feature/14092-change-hole-analyzer 
+  168  git checkout -f ConnectingLine.cs feature/14052-add-connection-lines-to-dimension
+  169  git checkout -f Model/Dimensions/ConnectingLine.cs feature/14052-add-connection-lines-to-dimension
+  170  pwd
+  171  git checkout -f ./Model/Dimensions/ConnectingLine.cs feature/14052-add-connection-lines-to-dimension
+  172  git switch feature/14052-add-connection-lines-to-dimension 
+  173  git checkout feature/14092-change-hole-analyzer 
+  174  git checkout feature/14092-change-hole-analyzer 
+  175  git switch feature/14052-add-connection-lines-to-dimension 
+  176  git checkout feature/14092-change-hole-analyzer 
+  177  git add .
+  178  ng new app-from
+  179  ng new app-front
+  180  ng new app.front
+  181  code .
+  182  ng serve
+  183  git showlog
+  184  git log
+  185  git commid -a -c 755edd
+  186  git commit -a -c 755edd
+  187  git clone https://consolisgroup@dev.azure.com/consolisgroup/2144_Common_Tekla_Environment/_git/TS2020_Consolis_Env_SSPE
+  188  git clone https://consolisgroup@dev.azure.com/consolisgroup/2144_Common_Tekla_Environment/_git/TS2020_Consolis_Env_SSPE
+  189  ls
+  190  cd TS2020_Consolis_Env_SSPE/
+  191  ls
+  192  cd INSTALL/
+  193  ls
+  194  cd 09_SSPE/
+  195  ls
+  196  cd CopySricpts/
+  197  ls
+  198  git log
+  199  git log --pretty=oneline --abbrev-commit -abbrev=4
+  200  git log --pretty=oneline --abbrev-commit -abrev=4
+  201  git log --pretty=oneline --abbrev-commit --abbrev=4
+  202  git log --pretty=oneline --abbrev-commit --abbrev=4 n5
+  203  git log --pretty=oneline --abbrev-commit --abbrev=4 --count 5
+  204  git shortlog
+  205  git log --pretty=oneline --abbrev-commit --abbrev=4
+  206  git reset hard 8f19f64e
+  207  git reset --hard 8f19f64e
+  208  git status
+  209  git log
+  210  git add .
+  211  git commit -m "reset to previous commit"
+  212  git pull
+  213  git status
+  214  git log
+  215  git status
+  216  git push
+  217  git revert fc619e00
+  218  git revert eff2ad4e
+  219  git log
+  220  echo 123>test.123
+  221  touch 1
+  222  touch 3
+  223  touch 5
+  224  touch 8
+  225  mkdir test
+  226  git branch
+  227  git log
+  228  git status
+  229  git fetch
+  230  git pull
+  231  git push
+  232  git add .
+  233  git fetch
+  234  git pull
+  235  ng add @angular/material
+  236  ng serve
+  237  ng g c quiz-home
+  238  ng g c quiz-home
+  239  ng config -g
+  240  "ng config -g cli.warnings.versionMismatch false
+  241  q
+  242  qw
+  243  ng g c quiz-home
+  244  ng config -g cli.warnings.versionMismatch false
+  245  ng g c question-component
+  246  ng g c quiz-question-component
+  247  ng g c quiz-question-component skip-import
+  248  ng g c quiz-question-component -skip-import
+  249  ng g c quiz-question-component --skip-import
+  250  ng g c quiz-question
+  251  ng g c quiz-question --skip-impoting
+  252  ng g c quiz-question -skip-impoting
+  253  ng g c quiz-question skip-import
+  254  ng g c quiz-question -skip-import
+  255  git config -l
+  256  git shortlog -s -n
+  257  git log
+  258  git status
+  259  git reset --hard
+  260  git add .
+  261  git reset --hard
+  262  git status
+  263  echo test>txt.txt
+  264  git reset --hard
+  265  git add .
+  266  gt reset --hard
+  267  git status
+  268  git reset --hard
+  269  git reflog
+  270  echo test>test.txt
+  271  git add .
+  272  git log
+  273  git checkout 277f8
+  274  git checkout master
+  275  git commit -m test
+  276  git checkout 277f8
+  277  git checkout master
+  278  git checkout 277f8
+  279  git branch -b new
+  280  git checkout -b new
+  281  git checkout master
+  282  git checkout new
+  283  git log -pretty=oneline
+  284  git log --pretty=oneline
+  285  ng g c category
+  286  ng g c category skip-import
+  287  ng g c category -skip-import
+  288  ng g c category --skip-import
+  289  ng g c edit-category --skip-impoert
+  290  ng g c edit-category --skip-import
+  291  ng g c subcategories --skip-import
+  292  ng g c edit-subcategory --skip-import
+  293  ng g c questions --skip-import
+  294  git remote
+  295  git branch -a
+  296  cat git remote -a
+  297  git clone https://consolisgroup@dev.azure.com/consolisgroup/2144_Common_Tekla_Environment/_git/TeklaAttributes
+  298  ng g c question-with-answer --skip-import
+  299  cd questions/
+  300  ng g c question-with-answer --skip-import
+  301  code .
+  302  ng g c signin --skip-import
+  303  ng g c signup --skip-import
+  304  npm install @auth0/angular-jwt
+  305  ng g c start --skip-import
+  306  ng g guard auth-guard
+  307  git checkout test Consolis_Common_UDA_pool.xlsx
+  308  git commit -m "update master excel"
+  309  git push
+  310  git checkout master
+  311  git checkout test Consolis_Common_UDA_pool.xlsx
+  312  ls
+  313  git checkout test Consolis_Common_UDA_pool.xlsx
+  314  git checkout test Consolis_Common_UDA_pool.xlsx
+  315  git checkout development Consolis_Common_UDA_pool.xlsx
+  316  ls
+  317  ls | grep .xlsx
+  318  git checkout test Consolis_Common_UDA_pool.xlsx
+  319  git commit -m "update master excel"
+  320  git push
+  321  git status
+  322  git config
+  323  git remote
+  324  git init
+  325  git remote
+  326  git config
+  327  username
+  328  git username
+  329  git showconfig
+  330  git config --list
+  331  git remote set-url origin https://github.com/orzio/index-cards.git
+  332  git remote set-url origin http://github.com/orzio/index-cards.git
+  333  git remote set-url origin https://github.com/orzio/index-cards.git
+  334  git config
+  335  git remote set-url origin https://github.com/orzio/index-cards.git
+  336  git remote set-url origin https://github.com/orzio/index-cards.git
+  337  git remote set-origin https://github.com/orzio/index-cards.git
+  338  git remote -v
+  339  git remote add index-cards https://github.com/orzio/index-cards.git
+  340  git add .
+  341  git status
+  342  git config user.name orzio
+  343  git config user.email andrzej.orzinski@gmail.com
+  344  git commit -m "initial commit with v1"
+  345  git push
+  346  git remote add index-cards https://github.com/orzio/index-cards.git
+  347  git push index-cards
+  348  git push --set-upsream index-cards master
+  349  git push --set-upstream index-cards master
+  350  git pull
+  351  git pull index-cards master
+  352  git status
+  353  git push index-cards master
+  354  git pull
+  355  git pull index-cards master
+  356  git branch
+  357  git pull(1)
+  358  git pul
+  359  git pull
+  360  git pull index-cards master
+  361  git push index-cards dev
+  362  git pull index-cards dev
+  363  git branch -b dev
+  364  git checkout -b dev
+  365  ls status
+  366  git status
+  367  git push index-cards dev
+  368  git pull ...
+  369  git pull
+  370  git pull index-cards dev
+  371  git 
+  372  git log
+  373  git status
+  374  git push index-cards development
+  375  git push index-cards dev
+  376  git fetch
+  377  gitk --a;;
+  378  gitk --akk
+  379  gitk --all
+  380  git status
+  381  git pull
+  382  git pull index-cards dev
+  383  git status
+  384  git fetch
+  385  git rebase dev/dev
+  386  git rebase index-cards dev/dev
+  387  git branch remote
+  388  git remote
+  389  git branch -r
+  390  git rebase index-cards/dev/dev
+  391  git rebase "index-cards/dev"/dev
+  392  git push origin dev/dev
+  393  git fetch origin
+  394  git fetch index-cards
+  395  git merge index-cards/dev dev
+  396  git pull index-cards/dev dev
+  397  git pull index-cards dev
+  398  git pull
+  399  git config
+  400  git config --list
+  401  git init
+  402  git --set-upsream index-cards master
+  403  git remote set-url origin git@github.com/orzio/index-cards.git
+  404  git remote set-url origin git@github.com/orzio/index-cards.git
+  405  git remote add origin git@github.com:orzio/index-cards.git
+  406  git remote add index-cards https://github.com/orzio/index-cards.git
+  407  git config user.name orzio
+  408  git config.email andrzej.orzinski@consolis.com
+  409  git config.email andrzej.orzinski@gmail.com
+  410  git config user.email andrzej.orzinski@gmail.com
+  411  git config --list
+  412  git add .
+  413  git pull
+  414  git pull index-cards dev
+  415  git checkout -b dev
+  416  git pull index-cards dev
+  417  ls
+  418  git status
+  419  git pull
+  420  pit pull index-cards dev
+  421  git pull index-cards dev
+  422  git commit -m "init commit"
+  423  git push index-cards dev
+  424  history
+  425  echo history > C:\Users\cnsanorz\Documents\index-cards
+  426  history
+  427  echo history > C:\Users\cnsanorz\Documents\index-cards.txt
+  428  history > C:\Users\cnsanorz\Documents\index-cards.txt
