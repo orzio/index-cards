@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Subject, throwError } from 'rxjs';
 
 import { tap, catchError, shareReplay, map } from 'rxjs/operators';
+import { QuizErrorHandlerService } from './error-handlers/quiz-error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +21,12 @@ export class CategoryService {
   quizCategories$ = this.httpClient.get<Category[]>(`${this.categoriesUrl}/quizes`)
     .pipe(
       tap(data => console.log('quiz-categories', JSON.stringify(data))),
-      catchError(this.handleError)
+      catchError(this.errorHandlerService.handleError)
     );
 
   categories$ = this.httpClient.get<Category[]>(this.categoriesUrl)
     .pipe(
-      tap(data => console.log('categories', JSON.stringify(data))),
-      catchError(this.handleError)
+      catchError(this.errorHandlerService.handleError)
     );
 
   selectedCategorySubject = new Subject<number>();
@@ -34,17 +34,23 @@ export class CategoryService {
 
   public getSubcategories(id: number) {
     console.log("subcategories" + id);
-    return this.httpClient.get<Category[]>(`${this.categoriesUrl}/${id}/${this.subcategoriesUrl}`);
+    return this.httpClient.get<Category[]>(`${this.categoriesUrl}/${id}/${this.subcategoriesUrl}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 
   public getCategoryById(id: number) {
-    return this.httpClient.get<Category>(`${this.categoriesUrl}/${id}`).pipe(tap(data => console.log('categories', JSON.stringify(data))));
+    return this.httpClient.get<Category>(`${this.categoriesUrl}/${id}`).pipe(tap(data => console.log('categories', JSON.stringify(data))),
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 
   public removeCategory(id: number) {
-    return this.httpClient.delete(`${this.categoriesUrl}/${id}`);
+    return this.httpClient.delete(`${this.categoriesUrl}/${id}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
-  public refreshCategories= new Subject<boolean>();
+  public refreshCategories = new Subject<boolean>();
 
   //categoriesWithSubCategories$ = combineLatest([
   //  this.subCategories$,
@@ -55,34 +61,25 @@ export class CategoryService {
   //    }) as Category));
 
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private errorHandlerService:QuizErrorHandlerService) { }
 
-  private handleError(err: any) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
-    }
-    console.error(err);
-    return throwError(errorMessage);
-  }
 
   addCategory(name: string) {
     console.log("add category: " + name);
-    return this.httpClient.post<Category>(this.categoriesUrl, { name }, this.httpOptions);
+    return this.httpClient.post<Category>(this.categoriesUrl, { name }, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandlerService.handleError)
+      );
   }
 
 
   addSubCategory(name: string, parentId: number) {
     console.log("add category: " + name + "parent id: " + parentId);
     let subactagory = { name, parentId } as CreateSubcategory;
-    return this.httpClient.post<Category>(`${this.categoriesUrl}/subcategories`, { name, parentId } ,this.httpOptions);
+    return this.httpClient.post<Category>(`${this.categoriesUrl}/subcategories`, { name, parentId }, this.httpOptions)
+      .pipe(
+        catchError(this.errorHandlerService.handleError)
+      );
   }
 
 
@@ -90,7 +87,7 @@ export class CategoryService {
   updateCategory(category: Category) {
     return this.httpClient.put<Category>(`${this.categoriesUrl}/${category.id}`, category, this.httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError(this.errorHandlerService.handleError)
       );
   }
 }

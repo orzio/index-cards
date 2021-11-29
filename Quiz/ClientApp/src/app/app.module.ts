@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { CategoriesComponent } from './categories/categories.component';
 
 import { DialogContentExampleDialog, HomeComponent } from './home/home.component';
-import { EditComponenet } from './edit-question/edit-question.component';
+import { EditComponenet } from './questions/edit-question/edit-question.component';
 import { QuizHomeComponent } from './quiz-home/quiz-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,20 +26,21 @@ import { QuizQuestionComponent } from './quiz-home/quiz-question/quiz-question.c
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { CategoryComponent } from './category/category.component';
-import { EditCategoryComponent } from './edit-category/edit-category.component';
-import { SubcategoriesComponent } from './subcategories/subcategories.component';
-import { EditSubcategoryComponent } from './edit-subcategory/edit-subcategory.component';
+import { CategoryComponent } from './categories/category/category.component';
+import { EditCategoryComponent } from './categories/category/edit-category/edit-category.component';
+import { SubcategoriesComponent } from './categories/subcategories/subcategories.component';
+import { EditSubcategoryComponent } from './categories/subcategories/edit-subcategory/edit-subcategory.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { QuestionsComponent } from './questions/questions.component';
 import { MatListModule } from '@angular/material/list';
 import { QuestionWithAnswerComponent } from './questions/question-with-answer/question-with-answer.component';
-import { SigninComponent } from './signin/signin.component';
-import { SignupComponent } from './signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthInterceptor } from './services/auth-interceptor';
+import { AuthInterceptor } from './services/interceptors/auth-interceptor';
 import { StartComponent } from './start/start.component';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { QuizErrorHandlerService } from './services/error-handlers/quiz-error-handler.service';
 
 
 const materialModules = [
@@ -91,16 +92,16 @@ const materialModules = [
       { path: 'signin', component: SigninComponent, pathMatch: 'full' },
       { path: 'signup', component: SignupComponent, pathMatch: 'full' },
 
-      { path: 'show-categories/:categoryId/add-question', component: EditComponenet },
-      { path: 'show-categories/:categoryId/edit-question/:questionId', component: EditComponenet, canActivate: [AuthGuardGuard] },
-      { path: 'show-categories', component: CategoriesComponent, canActivate: [AuthGuardGuard]},
-      { path: 'show-categories/add', component: EditCategoryComponent, canActivate: [AuthGuardGuard] },
-      { path: 'show-categories/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuardGuard] },
-      { path: 'show-categories/:categoryId/add', component: EditSubcategoryComponent, canActivate: [AuthGuardGuard] },
+      { path: 'categories/:categoryId/add-question', component: EditComponenet },
+      { path: 'categories/:categoryId/edit-question/:questionId', component: EditComponenet, canActivate: [AuthGuardGuard] },
+      { path: 'categories', component: CategoriesComponent, canActivate: [AuthGuardGuard]},
+      { path: 'categories/add', component: EditCategoryComponent, canActivate: [AuthGuardGuard] },
+      { path: 'categories/:categoryId', component: EditCategoryComponent, canActivate: [AuthGuardGuard] },
+      { path: 'categories/:categoryId/add', component: EditSubcategoryComponent, canActivate: [AuthGuardGuard] },
       { path: 'quiz/category/:categoryId', component: QuizHomeComponent, pathMatch: 'full', canActivate: [AuthGuardGuard] },
       { path: 'quiz/:quizid/question/:questionId', component: QuizHomeComponent, pathMatch: 'full', canActivate: [AuthGuardGuard] },
       { path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuardGuard] },
-      //{ path: '**', component: NotFoundComponent, pathMatch: 'full' },
+      { path: '**', component: NotFoundComponent, pathMatch: 'full' },
     ]),
     BrowserAnimationsModule,
     [...materialModules]
@@ -116,7 +117,7 @@ const materialModules = [
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
   ],
 
   bootstrap: [AppComponent]

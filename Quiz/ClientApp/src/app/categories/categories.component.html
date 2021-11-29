@@ -4,10 +4,13 @@
     <app-category class="col-md-3"
                   *ngFor="let category of categories"
                   [category]="category"
-                  (click)="goToCategory(category)"
-                  ></app-category>
+                  (click)="goToCategory(category)"></app-category>
   </div>
   <div class="mt-5">
     <button mat-raised-button color="primary" (click)="addCategory()">Add Category</button>
   </div>
+</div>
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
 </div>

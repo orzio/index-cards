@@ -82,6 +82,11 @@ interface QuizStatusDto {
   status: number;
 }
 
+interface QuizError {
+  name: string;
+  message: string;
+}
+
 enum QuizStatus {
   NotStarted, Active, Finished
 }

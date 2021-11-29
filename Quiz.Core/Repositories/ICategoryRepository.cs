@@ -15,5 +15,7 @@ namespace Quiz.Core.Repositories
         Task<IEnumerable<CategoryWithChildrenDto>> GetAllCategoryWithChildren();
         Task<IEnumerable<CategoryWithChildrenDto>> GetMainCategoriesWithChildernContainingQuestions();
         Task<Category> CreateCategory(string name);
+        Task DeleteCascadeAsync(Category category);
+        Task<Category> GetCategory(int id);
     }
 }

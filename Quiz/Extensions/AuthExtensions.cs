@@ -39,7 +39,7 @@ namespace MyMusic.Api.Extensions
                             c.NoResult();
                             c.Response.StatusCode = 500;
                             c.Response.ContentType = "text/plain";
-                            return c.Response.WriteAsync(c.Exception.ToString());
+                            return c.Response.WriteAsync(c.Exception.Message.ToString());
                         },
                         OnChallenge = context =>
                         {

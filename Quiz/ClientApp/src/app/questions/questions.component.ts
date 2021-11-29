@@ -1,7 +1,9 @@
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, Subject, Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { QuestionService } from '../services/question-service';
 
 @Component({
@@ -9,26 +11,36 @@ import { QuestionService } from '../services/question-service';
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css']
 })
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent implements OnInit, OnDestroy {
+
+
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
   questions$: Observable<QuestionWithAnswer[]>;
   categoryId: number;
+  private subscriptions = new Subscription;
+
   ngOnInit() {
-    this.route.params.subscribe(
+    let sub = this.route.params.subscribe(
       (params) => {
         this.categoryId = (Number(params['categoryId']));
         this.questions$ = this.questionService.GetQuestionsForCategoryId(this.categoryId);
+      }, error => {
+        this.errorMessageSubject.next(error)
       });
+    this.subscriptions.add(sub);
 
-    this.questionService.refreshQuestion.subscribe(() => {
-      console.log("123123213odsiwezam")
+    let subQuestion = this.questionService.refreshQuestion.subscribe(() => {
       this.questions$ = this.questionService.GetQuestionsForCategoryId(this.categoryId);
+    }, error => {
+      this.errorMessageSubject.next(error)
     });
+    this.subscriptions.add(subQuestion);
   }
 
   add() {
     this.router.navigate([`add-question`], { relativeTo: this.route })
-    console.log("add works");
   }
   constructor(private questionService: QuestionService, private route: ActivatedRoute, private router: Router) { 
     //var result = this.route.params.pipe(
@@ -46,4 +58,8 @@ export class QuestionsComponent implements OnInit {
     //        ))
     //      })))))
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+    }
 }

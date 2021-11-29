@@ -1,5 +1,7 @@
+import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../services/auth-service';
 
@@ -8,14 +10,17 @@ import { AuthService } from '../services/auth-service';
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent implements OnInit, OnDestroy {
 
   isLoggedIn: boolean;
+  private subscriptions = new Subscription();
   constructor(private authService: AuthService, private router:Router) {
 
   }
+
   ngOnInit(): void {
-    this.authService.currentUser.pipe(map(user => { this.isLoggedIn = user != null })).subscribe();
+    let sub = this.authService.currentUser.pipe(map(user => { this.isLoggedIn = user != null })).subscribe();
+    this.subscriptions.add(sub);
   }
   isExpanded = false;
 
@@ -31,4 +36,9 @@ export class NavMenuComponent implements OnInit {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
 }

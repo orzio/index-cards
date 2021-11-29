@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EMPTY, of, Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CategoryService } from '../services/category-service';
 import { QuestionService } from '../services/question-service';
 
@@ -10,9 +12,19 @@ import { QuestionService } from '../services/question-service';
 })
 export class CategoriesComponent {
 
-  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private router:Router) { }
+  constructor(private categoryService: CategoryService, private route: ActivatedRoute, private router: Router) {
+  }
 
-  categories$ = this.categoryService.categories$;
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
+
+  categories$ = this.categoryService.categories$.pipe(
+    catchError(err => {
+      this.errorMessageSubject.next(err);
+      return EMPTY;
+    })
+  );
+
 
   goToCategory(category: Category) {
     this.router.navigate([`${category.id}`], { relativeTo: this.route })

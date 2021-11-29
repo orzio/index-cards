@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { getBaseUrl } from '../../main';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscribable, Subscription } from 'rxjs';
+import { EMPTY, Subject, Subscribable, Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { QuestionService } from '../services/question-service';
 import { QuizService } from '../services/quiz-service';
 import { OnDestroy } from '@angular/core';
@@ -22,18 +22,26 @@ export class QuizHomeComponent implements OnInit, OnDestroy {
   public question$: Observable<Question>;
   public quizId: number;
 
-  private subs: Subscription;
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
+
+  private subs = new Subscription;
   constructor(private quizService: QuizService, private location: Location,
     private activatedRoute: ActivatedRoute, private router:Router) {}
 
   ngOnInit(): void {
-    this.subs = this.activatedRoute.paramMap.pipe(
+    let sub = this.activatedRoute.paramMap.pipe(
       switchMap(params => this.quizService.createQuiz(Number(params.get('categoryId')))
       ))
       .subscribe(quiz => {
         this.quizId = quiz.id;
         this.nextQuestion();
-      });
+      },
+        error => {
+          this.errorMessageSubject.next(error)
+        });
+    this.subs.add(sub);
+
   }
 
   nextQuestion() {

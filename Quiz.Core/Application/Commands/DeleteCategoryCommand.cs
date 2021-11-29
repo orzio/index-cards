@@ -23,10 +23,11 @@ namespace Quiz.Core.Application.Commands
         }
         public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var category = await _categoryRepository.GetByIdAsync(request.Id);
+            var category = await _categoryRepository.GetCategory(request.Id);
             if (category == null)
                 throw new NullReferenceException();
-            await _categoryRepository.DeleteAsync(category);
+            await _categoryRepository.DeleteCascadeAsync(category);
+            //await _categoryRepository.DeleteAsync(category);
             return new Unit();
         }
     }

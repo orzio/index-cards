@@ -44,3 +44,7 @@
   </mat-card>
 
 </div>
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
+</div>
