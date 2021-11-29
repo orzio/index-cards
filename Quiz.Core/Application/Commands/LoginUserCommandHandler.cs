@@ -33,12 +33,14 @@ namespace Quiz.Core.Application.Commands
             var user = _userManager.Users.SingleOrDefault(user => user.Email == request.Email);
 
             if (user is null)
-                throw new ArgumentException("Invalid credentials");
-
+                throw new Exception("Invalid credentials");
 
             var roles = await _userManager.GetRolesAsync(user);
 
             var currentUser = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!currentUser)
+                throw new Exception("Invalid credentials");
+
             var token = GenerateJwt(user, roles);
 
             JwtToken jwtToken = new JwtToken() { Token = token };
