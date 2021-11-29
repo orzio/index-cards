@@ -133,6 +133,8 @@ namespace Quiz
 
             app.UseStaticFiles();
 
+            app.ConfigureCustomExceptionMiddleware();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
