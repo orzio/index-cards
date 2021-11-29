@@ -6,6 +6,7 @@ import { BehaviorSubject, combineLatest, merge, Observable, Subject, throwError 
 
 import { tap, catchError, shareReplay, map, switchMap, concatMap, scan } from 'rxjs/operators';
 import { CategoriesComponent } from '../categories/categories.component';
+import { QuizErrorHandlerService } from './error-handlers/quiz-error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { CategoriesComponent } from '../categories/categories.component';
 export class QuestionService {
 
 
-  constructor(private httpClient: HttpClient, private activatedRoute: ActivatedRoute) { }
+  constructor(private httpClient: HttpClient, private activatedRoute: ActivatedRoute, private errorHandlerService:QuizErrorHandlerService) { }
   private questionUrl = 'questions';
   private subcategoriesUrl = 'subcategories';
   httpOptions = {
@@ -23,7 +24,7 @@ export class QuestionService {
   updateQuestion(question: UpdatedQuestionWithAnswer, questionId: number) {
     return this.httpClient.put(`${this.questionUrl}/${questionId}`, question, this.httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError(this.errorHandlerService.handleError)
       );
   }
   public createQuestion(question: Question): Observable<Question> {
@@ -31,46 +32,37 @@ export class QuestionService {
 
     return this.httpClient.post(this.questionUrl, question, this.httpOptions).pipe(
       tap((newQuestion: Question) => console.log(`NewQuestion ${newQuestion}`)),
-      catchError(this.handleError));
+      catchError(this.errorHandlerService.handleError));
   }
 
   public GetQuestionsForCategoryId(categoryId: number): Observable<QuestionWithAnswer[]> {
     console.log("categoryId" + categoryId);
-    return this.httpClient.get<QuestionWithAnswer[]>(`/categories/${categoryId}/questions`)
+    return this.httpClient.get<QuestionWithAnswer[]>(`/categories/${categoryId}/questions`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    )
   }
 
 
   public GetQuestionWithAnswerById(questionId: number): Observable<QuestionWithAnswer> {
     console.log("categoryId" + questionId);
-    return this.httpClient.get<QuestionWithAnswer>(`/questions/${questionId}`)
+    return this.httpClient.get<QuestionWithAnswer>(`/questions/${questionId}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    )
   }
 
   public getAnswerByQuestionId(currentQuestionId: number): Observable<Answer> {
     console.log("getAnswer");
-    return this.httpClient.get<Answer>(`${this.questionUrl}/answer/${currentQuestionId}`)
+    return this.httpClient.get<Answer>(`${this.questionUrl}/answer/${currentQuestionId}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    )
   }
 
   public removeQuestion(questionWithAnswer: QuestionWithAnswer) {
-    return this.httpClient.delete(`${this.questionUrl}/${questionWithAnswer.question.id}`);
+    return this.httpClient.delete(`${this.questionUrl}/${questionWithAnswer.question.id}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    )
   }
 
   public refreshQuestion = new Subject<boolean>();
 
-
-
-  private handleError(err: any) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
-    }
-    console.error(err);
-    return throwError(errorMessage);
-  }
 }

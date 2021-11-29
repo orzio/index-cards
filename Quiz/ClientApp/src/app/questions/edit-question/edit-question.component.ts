@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CategoryService } from '../services/category-service';
-import { QuestionService } from '../services/question-service';
+import { CategoryService } from '../../services/category-service';
+import { QuestionService } from '../../services/question-service';
 import { Location } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { EMPTY, Subject, Subscription } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'edit-question-component',
@@ -12,21 +14,34 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 
-export class EditComponenet implements OnInit {
+export class EditComponenet implements OnInit, OnDestroy {
 
   questionId: number;
   categoryId: number;
   isEditMode: boolean;
   currentQuestion: QuestionWithAnswer;
+  private subscriptions = new Subscription();
+
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
+
   ngOnInit() {
-    this.route.params.subscribe(
+    let subQuestion = this.route.params.subscribe(
       (params) => {
         this.questionId = (Number(params['questionId']));
+      },
+      error => {
+        this.errorMessageSubject.next(error)
       });
-    this.route.params.subscribe(
+    let subRoute = this.route.params.subscribe(
       (params) => {
         this.categoryId = (Number(params['categoryId']));
+      },
+      error => {
+        this.errorMessageSubject.next(error)
       });
+    this.subscriptions.add(subQuestion)
+      .add(subRoute);
     this.InitializeForm();
   }
 
@@ -42,18 +57,6 @@ export class EditComponenet implements OnInit {
     questionAnswer: new FormControl('', [Validators.required]),
   });
 
-
-  //  if(this.isEditMode) {
-  //    let categoryName = this.categoryForm.value.categoryName;
-  //    this.currentCategory.name = categoryName;
-  //    this.categoryService.updateCategory(this.currentCategory).subscribe();
-  //  }
-  //    else {
-  //  let categoryName = this.categoryForm.value.categoryName;
-  //  this.categoryService.addCategory(categoryName).subscribe();
-  //}
-
-
   onSubmit() {
     console.warn(this.questionForm.value);
     let question = {
@@ -67,13 +70,19 @@ export class EditComponenet implements OnInit {
         QuestionContent: this.questionForm.value.questionContent,
         AnswerContent: this.questionForm.value.questionAnswer
       } as UpdatedQuestionWithAnswer
-      this.questionService.updateQuestion(updatedQuestion, this.questionId).subscribe(() =>
-        this.goBack());
+      let sub = this.questionService.updateQuestion(updatedQuestion, this.questionId).subscribe(() =>
+        this.goBack(),
+        error => {
+          this.errorMessageSubject.next(error)
+        });
+      this.subscriptions.add(sub);
     } else {
-      this.questionService.createQuestion(question).subscribe(() =>
-        this.goBack());
-
-      
+      let sub = this.questionService.createQuestion(question).subscribe(() =>
+        this.goBack(),
+        error => {
+          this.errorMessageSubject.next(error)
+        });
+      this.subscriptions.add(sub);
     }
 
   }
@@ -81,19 +90,26 @@ export class EditComponenet implements OnInit {
   InitializeForm() {
     if (this.questionId) {
       this.isEditMode = true;
-      this.questionService.GetQuestionWithAnswerById(this.questionId).subscribe((questionWithAnswer: QuestionWithAnswer) => {
+      let sub = this.questionService.GetQuestionWithAnswerById(this.questionId).subscribe((questionWithAnswer: QuestionWithAnswer) => {
         this.currentQuestion = questionWithAnswer;
         this.questionForm.patchValue({
           questionContent: questionWithAnswer.question.content,
           questionAnswer: questionWithAnswer.answer.content
         })
-      });
+      },
+        error => {
+          this.errorMessageSubject.next(error)
+        });
+      this.subscriptions.add(sub);
     }
   }
 
-
   goBack() {
     this.location.back();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
 

@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { combineLatest, Subject, throwError } from 'rxjs';
 
 import { tap, catchError, shareReplay, map } from 'rxjs/operators';
+import { QuizErrorHandlerService } from './error-handlers/quiz-error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,9 @@ export class AuthService {
 
   signIn(signInData: SignInData) {
     return this.httpClient.post<string>(`${this.authUrl}/signin`, signInData, this.httpOptions)
-      .pipe(tap(res => this.setSession(res)));
-
+      .pipe(tap(res => this.setSession(res)),
+        catchError(this.errorHandlerService.handleError)
+      );
   }
 
   private setSession(token) {
@@ -44,41 +46,29 @@ export class AuthService {
     this.currentUserSubject.next(user);
   }
 
-  logOut(){
+  logOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-}
+  }
 
-  isLoggedIn():boolean {
-    return this.currentUserSubject.value !=null;
+  isLoggedIn(): boolean {
+    return this.currentUserSubject.value != null;
   }
 
 
   signUp(signUpData: SignUpData) {
-    return this.httpClient.post(`${this.authUrl}/signup`, signUpData, this.httpOptions);
+    return this.httpClient.post(`${this.authUrl}/signup`, signUpData, this.httpOptions).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private errorHandlerService: QuizErrorHandlerService) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  private handleError(err: any) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
-    }
-    console.error(err);
-    return throwError(errorMessage);
-  }
+
 
 }
 

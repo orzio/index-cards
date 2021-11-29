@@ -4,3 +4,7 @@
   </app-question-with-answer>
   <button mat-raised-button color="primary" (click)="add()">Add question</button>
 </div>
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
+</div>

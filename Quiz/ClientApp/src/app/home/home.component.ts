@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeNestedDataSource } from '@angular/material/tree';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
+import { EMPTY, Subject, Subscription } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { CategoryService } from '../services/category-service';
 
 @Component({
@@ -16,15 +17,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   treeControl = new NestedTreeControl<Category>(node => node.subCategories);
   dataSource = new MatTreeNestedDataSource<Category>();
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
-  private categories$ = this.categoryService.quizCategories$;
-  private _subscription = new Subscription();
+  private categories$ = this.categoryService.quizCategories$.pipe(catchError(error => {
+    this.errorMessageSubject.next(error);
+    return EMPTY;
+  }));
+  private subscriptions = new Subscription();
 
   constructor(private categoryService: CategoryService, public dialog: MatDialog) { }
   ngOnInit(): void {
-    this._subscription = this.categories$.subscribe((data: Category[]) => {
+    let sub = this.categories$.subscribe((data: Category[]) => {
       this.dataSource.data = data
-    });
+    },
+      error => {
+        this.errorMessageSubject.next(error)
+      });
+    this.subscriptions.add(sub);
   }
 
   activeNode: Category;
@@ -35,22 +45,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   hasChild = (_: number, node: Category) => !!node.subCategories && node.subCategories.length > 0;
 
-
-  ngOnDestroy(): void {
-    this._subscription.unsubscribe();
-  }
-
   selectCategory(selectedCategory: Category) {
     console.info(selectedCategory.id);
     const dialogRef = this.dialog.open(DialogContentExampleDialog,
       {
-        data: { category:selectedCategory }
+        data: { category: selectedCategory }
       });
 
-    dialogRef.afterClosed().subscribe(result => {
+    let sub = dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+    }, error => {
+      this.errorMessageSubject.next(error)
     });
+    this.subscriptions.add(sub);
+  }
 
+
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
 }
@@ -68,7 +81,7 @@ export class DialogContentExampleDialog {
 
   startQuiz() {
     this.router.navigateByUrl(`/quiz/category/${this.data.category.id}`);
-    }
+  }
 
 }
 

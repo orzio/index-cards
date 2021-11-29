@@ -8,3 +8,7 @@
     <button mat-raised-button color="primary" (click)="remove()" class="ml-2">Remove</button>
   </div>
 </div>
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
+</div>

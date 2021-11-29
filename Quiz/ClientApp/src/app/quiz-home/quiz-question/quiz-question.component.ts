@@ -3,8 +3,8 @@ import { OnDestroy } from '@angular/core';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, merge, Observable, Subscription } from 'rxjs';
-import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, merge, Observable, Subject, Subscription } from 'rxjs';
+import { catchError, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { log } from 'util';
 import { QuestionService } from '../../services/question-service';
 import { QuizService } from '../../services/quiz-service';
@@ -24,30 +24,47 @@ export class QuizQuestionComponent implements OnInit, OnDestroy {
   private currentQuizId: number;
   answerResult: AnswerResult;
   correctAnswer: Answer;
+  private subscriptions = new Subscription();
+
+  private errorMessageSubject = new Subject<string>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
   isActive = true;
-  private subscription: Subscription;
 
   ngOnInit(): void {
-    this.subscription=  this.quizService.checkAnswerAction$.pipe(
+    let sub = this.quizService.checkAnswerAction$.pipe(
       switchMap(quizId => this.quizService.checkAnswer(
         this.currentQuestionId,
         this.currentQuizId,
         this.answer.value)))
       .subscribe((data: AnswerResult) => {
         this.answerResult = data;
-      });
+      },
+        error => {
+          this.errorMessageSubject.next(error)
+        });
 
-    this.quizService.showAnswerAction$.pipe(
+    this.subscriptions.add(sub);
+
+    let checkAnswerSub = this.quizService.showAnswerAction$.pipe(
       switchMap(_ => this.questionService.getAnswerByQuestionId(this.currentQuestionId))
-    ).subscribe(answer => this.correctAnswer = answer);
+    ).subscribe(answer => this.correctAnswer = answer,
+      error => {
+        this.errorMessageSubject.next(error)
+      });
+    this.subscriptions.add(checkAnswerSub);
   }
+
 
   status$ = this.quizService.quizNumberChangedAction$
     .pipe(
       tap(quizId => this.currentQuizId = quizId),
       switchMap(quizId =>
-        this.quizService.checkQuizStatus(quizId))
+        this.quizService.checkQuizStatus(quizId)),
+      catchError(err => {
+        this.errorMessageSubject.next(err);
+        return EMPTY;
+      })
     );
 
 
@@ -66,14 +83,19 @@ export class QuizQuestionComponent implements OnInit, OnDestroy {
       this.answer.setValue('');
       this.correctAnswer = null;
     }
-  }));
+  }),
+    catchError(err => {
+      this.errorMessageSubject.next(err);
+      return EMPTY;
+    })  );
 
   private SetStatus(status: number) {
     this.isActive = status != 2;
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
+
 }
 
 
@@ -101,7 +123,7 @@ export class QuizQuestionComponent implements OnInit, OnDestroy {
 
    this.quizService.showAnswerAction$.pipe(
       switchMap(_ => this.questionService.getAnswerByQuestionId(this.currentQuestionId))
-    ).subscribe(answer => this.correctAnswer = answer);
+    ).  (answer => this.correctAnswer = answer);
   }
 
 */

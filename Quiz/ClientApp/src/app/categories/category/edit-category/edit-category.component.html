@@ -24,16 +24,22 @@
   </form>
 </div>
 
-<app-subcategories></app-subcategories>
-<div class="mt-5" *ngIf="isSubcategory">
-  <mat-accordion>
-    <mat-expansion-panel hideToggle style="background:transparent">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Questions
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-questions></app-questions>
-    </mat-expansion-panel>
-  </mat-accordion>
+<div *ngIf="isEditMode">
+  <app-subcategories></app-subcategories>
+  <div class="mt-5" *ngIf="isSubcategory">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle style="background:transparent">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Questions
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-questions></app-questions>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
 </div>

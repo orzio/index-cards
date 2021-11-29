@@ -12,3 +12,8 @@
     <button mat-stroked-button color="primary" type="submit" [disabled]="!categoryForm.valid">Save</button>
   </form>
 </div>
+
+<div class="alert alert-danger"
+     *ngIf="errorMessage$ | async as errorMessage">
+  {{errorMessage}}
+</div>

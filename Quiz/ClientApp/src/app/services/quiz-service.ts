@@ -6,12 +6,13 @@ import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable, Subject, throwError } from 'rxjs';
 
 import { tap, catchError, shareReplay, map } from 'rxjs/operators';
+import { QuizErrorHandlerService } from './error-handlers/quiz-error-handler.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuizService {
-  constructor(private httpClient: HttpClient, private activatedRoute: ActivatedRoute) { }
+  constructor(private httpClient: HttpClient, private activatedRoute: ActivatedRoute, private errorHandlerService: QuizErrorHandlerService) { }
   private quizUrl = 'quiz';
 
   httpOptions = {
@@ -19,19 +20,26 @@ export class QuizService {
   };
 
   public createQuiz(categoryId: number): Observable<Quiz> {
-    return this.httpClient.post<Quiz>(`${this.quizUrl}/category`, { categoryId }, this.httpOptions);
+    return this.httpClient.post<Quiz>(`${this.quizUrl}/category`, { categoryId }, this.httpOptions).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
+
   public question$: Observable<Question>;
 
   public getQuestionWithStatusForQuiz(quizId: number): Observable<QuestionWithStatus> {
     console.log("quiz started with id: "+quizId)
-    return this.httpClient.get<QuestionWithStatus>(`${this.quizUrl}/question/${quizId}`);
+    return this.httpClient.get<QuestionWithStatus>(`${this.quizUrl}/question/${quizId}`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 
 
   public checkQuizStatus(quizId: number): Observable<QuizStatusId> {
     console.log("servis" + quizId);
-    return this.httpClient.get<QuizStatusId>(`${this.quizUrl}/${quizId}/status`);
+    return this.httpClient.get<QuizStatusId>(`${this.quizUrl}/${quizId}/status`).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 
   public NextQuestionClicked = new Subject<number>();
@@ -48,22 +56,8 @@ export class QuizService {
       CurrentQuestionId: currentQuestionId,
       CurrentQuizId:currentQuizId,
       Answer: answer
-    }, this.httpOptions)
-  }
-
-  private handleError(err: any) {
-    // in a real world app, we may send the server to some remote logging infrastructure
-    // instead of just logging it to the console
-    let errorMessage: string;
-    if (err.error instanceof ErrorEvent) {
-      // A client-side or network error occurred. Handle it accordingly.
-      errorMessage = `An error occurred: ${err.error.message}`;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
-    }
-    console.error(err);
-    return throwError(errorMessage);
+    }, this.httpOptions).pipe(
+      catchError(this.errorHandlerService.handleError)
+    );
   }
 }
