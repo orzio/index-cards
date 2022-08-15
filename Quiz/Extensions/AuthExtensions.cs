@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Quiz.Core;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyMusic.Api.Extensions
 {

@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.Identity;
 using Quiz.Core;
 using MyMusic.Api.Extensions;
 using System.Collections.Generic;
+using Quiz.Extensions;
 
 namespace Quiz
 {
@@ -114,6 +115,7 @@ namespace Quiz
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+            services.SetPasswordRequirements();
             //return new AutofacServiceProvider(applicationContainer);
         }
 
